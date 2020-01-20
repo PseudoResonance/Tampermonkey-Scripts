@@ -10,21 +10,30 @@
 
 (function() {
     'use strict';
-
-    var links = document.getElementsByTagName("a");
-    var i;
-    for (i = 0; i < links.length; i++) {
-        var link = links[i];
-        var href = link.getAttribute("href");
-        if (href != null && href.length > 0) {
-            if (href.includes("IMSLPDisclaimerAccept")) {
-                window.location.replace(href);
+    var wait = document.getElementById("sm_dl_wait");
+    if (typeof(wait) != 'undefined' && wait != null) {
+        var red;
+        if (wait instanceof Array) {
+            red = wait[0].getAttribute("data-id");
+            if (red != window.location.href) {
+                window.location.replace(red);
+            }
+        } else {
+            red = wait.getAttribute("data-id");
+            if (red != window.location.href) {
+                window.location.replace(red);
             }
         }
-    }
-    var span = document.getElementById("sm_dl_wait");
-    var download = span.getAttribute("data-id");
-    if (download != null && download.length > 0) {
-        window.location.replace(download);
+    } else {
+        var links = document.getElementsByClassName("body")[0].getElementsByTagName("a");
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i].getAttribute("href");
+            var href = links[i].href;
+            if (href != window.location.href) {
+                if (href.toLowerCase().includes("disclaimer")) {
+                    window.location.replace(href);
+                }
+            }
+        }
     }
 })();
